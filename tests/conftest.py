@@ -1,3 +1,8 @@
+"""
+This module contains test fixtures and configuration for the notification service tests.
+Provides common setup and teardown functionality used across test cases.
+"""
+
 import os
 import sys
 
