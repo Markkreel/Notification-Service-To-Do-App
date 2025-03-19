@@ -33,10 +33,15 @@ def filter_task(tasks: list[Task]) -> list[Task]:
     now = datetime.now()
     due_tasks = []
     for task in tasks:
-        if task.due_date <= now:
-            task.status = TaskStatus.OVERDUE
-            due_tasks.append(task)
-        elif task.due_date - now <= timedelta(days=7):
-            task.status = TaskStatus.DUE_SOON
-            due_tasks.append(task)
+        if task.status not in [
+            TaskStatus.COMPLETED,
+            TaskStatus.OVERDUE,
+            TaskStatus.DUE_SOON,
+        ]:
+            if task.due_date <= now:
+                task.status = TaskStatus.OVERDUE
+                due_tasks.append(task)
+            elif task.due_date - now <= timedelta(days=7):
+                task.status = TaskStatus.DUE_SOON
+                due_tasks.append(task)
     return due_tasks
