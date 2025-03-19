@@ -7,6 +7,7 @@ class TaskStatus(str, Enum):
     PENDING = "Pending"
     IN_PROGRESS = "In Progress"
     COMPLETED = "Completed"
+    DUE_SOON = "Due Soon"
     OVERDUE = "Overdue"
     CANCELLED = "Cancelled"
 
