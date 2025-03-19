@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.models.task import Task, TaskStatus
 
 
@@ -27,3 +27,16 @@ def fetch_tasks() -> list[Task]:
         ),
     ]
     return tasks
+
+
+def filter_task(tasks: list[Task]) -> list[Task]:
+    now = datetime.now()
+    due_tasks = []
+    for task in tasks:
+        if task.due_date <= now:
+            task.status = TaskStatus.OVERDUE
+            due_tasks.append(task)
+        elif task.due_date - now <= timedelta(hours=1):
+            task.status = TaskStatus.DUE_SOON
+            due_tasks.append(task)
+    return due_tasks
