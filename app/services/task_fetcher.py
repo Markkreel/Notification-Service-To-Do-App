@@ -7,14 +7,14 @@ def fetch_tasks() -> list[Task]:
         Task(
             id=1,
             title="Complete Project Proposal",
-            due_date=datetime(2024, 2, 15, 17, 0),
+            due_date=datetime(2026, 2, 15, 17, 0),
             user_id=101,
             status=TaskStatus.PENDING,
         ),
         Task(
             id=2,
             title="Review Code Changes",
-            due_date=datetime(2024, 2, 10, 12, 0),
+            due_date=datetime(2025, 3, 21, 12, 0),
             user_id=102,
             status=TaskStatus.IN_PROGRESS,
         ),
@@ -36,7 +36,7 @@ def filter_task(tasks: list[Task]) -> list[Task]:
         if task.due_date <= now:
             task.status = TaskStatus.OVERDUE
             due_tasks.append(task)
-        elif task.due_date - now <= timedelta(hours=1):
+        elif task.due_date - now <= timedelta(days=7):
             task.status = TaskStatus.DUE_SOON
             due_tasks.append(task)
     return due_tasks
