@@ -7,16 +7,16 @@ def fetch_tasks() -> list[Task]:
         Task(
             id=1,
             title="Complete Project Proposal",
-            due_date=datetime(2026, 2, 15, 17, 0),
+            due_date=datetime(2024, 2, 15, 17, 0),
             user_id=101,
-            status=TaskStatus.PENDING,
+            status=TaskStatus.OVERDUE,
         ),
         Task(
             id=2,
             title="Review Code Changes",
             due_date=datetime(2025, 3, 21, 12, 0),
             user_id=102,
-            status=TaskStatus.IN_PROGRESS,
+            status=TaskStatus.DUE_SOON,
         ),
         Task(
             id=3,
@@ -35,8 +35,8 @@ def filter_task(tasks: list[Task]) -> list[Task]:
     for task in tasks:
         if task.status not in [
             TaskStatus.COMPLETED,
-            TaskStatus.OVERDUE,
-            TaskStatus.DUE_SOON,
+            TaskStatus.CANCELLED,
+            TaskStatus.IN_PROGRESS,
         ]:
             if task.due_date <= now:
                 task.status = TaskStatus.OVERDUE
