@@ -1,9 +1,17 @@
 from datetime import datetime, timedelta
-from app.models.task import Task, TaskStatus
+from sqlalchemy.orm import Session
+from app.models.task import Task, TaskStatus, TaskDB
+from app.database import get_db
 
 
 def fetch_tasks() -> list[Task]:
-    tasks = [
+    db = next(get_db())
+    tasks = db.query(TaskDB).all()
+    return [Task.from_orm(task) for task in tasks]
+
+
+def filter_task(tasks: list[Task]) -> list[Task]:
+    return [task for task in tasks if task.status in [TaskStatus.OVERDUE, TaskStatus.DUE_SOON]]
         Task(
             id=1,
             title="Complete Project Proposal",
