@@ -13,7 +13,8 @@ from app.models.task import TaskDB
 # Add the project root directory to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-TEST_SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+# Use in-memory SQLite for tests
+TEST_SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 
 test_engine = create_engine(
     TEST_SQLALCHEMY_DATABASE_URL,
@@ -25,7 +26,7 @@ TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_eng
 
 @pytest.fixture(scope="function")
 def db():
-    # Create all tables
+    # Create all tables before each test
     Base.metadata.create_all(bind=test_engine)
 
     # Create a new session for the test
@@ -33,6 +34,8 @@ def db():
     try:
         yield db
     finally:
+        # Close the session
         db.close()
-        # Drop all tables after the test
+        # Clear all tables after each test
         Base.metadata.drop_all(bind=test_engine)
+        Base.metadata.create_all(bind=test_engine)
